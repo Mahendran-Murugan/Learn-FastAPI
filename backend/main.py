@@ -1,4 +1,5 @@
 from fastapi import FastAPI, APIRouter, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from configrations import collection
 from database.schema import get_all_todo
 from database.models import Todo
@@ -6,6 +7,18 @@ from bson.objectid import ObjectId
 from datetime import datetime
 
 app = FastAPI()
+
+origins = ["http://localhost:3000",
+           "http://127.0.0.1:3000"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = origins,
+    allow_credentials = True,
+    allow_methods = ['*'],
+    allow_headers = ['*']
+)
+
 router = APIRouter(prefix="/api")
 
 @router.get('/')
